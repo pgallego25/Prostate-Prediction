@@ -36,3 +36,7 @@ DataExtraction/DatasetTest/Img7.jpg
 DataExtraction/DatasetTest/Img8.jpg
 DataExtraction/DatasetTest/Img9.jpg
 *.jpg
+DataExtraction/__pycache__/ContourFunctions.cpython-36.pyc
+DataExtraction/__pycache__/DoseFunctions.cpython-36.pyc
+DataExtraction/__pycache__/FindStructures.cpython-36.pyc
+DataExtraction/__pycache__/ReadPatientData.cpython-36.pyc
