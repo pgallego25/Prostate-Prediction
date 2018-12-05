@@ -9,11 +9,9 @@ Created on Thu Jul 26 10:56:56 2018
 #import time
 import os
 import numpy as np
-from ReadPatientData import ReadCtOnePatient,ReadDVHOnePatient,GetPatientData,SaveImages
+from ReadPatientData import GetPatientData,SaveImages
 from FindStructures import FindStructures
 import time
-import matplotlib.pyplot as plt
-from matplotlib import colors
 
 
 
@@ -24,6 +22,8 @@ channels=3
 
 XS=np.zeros((10000,input_shape,input_shape,channels))
 yS=np.zeros((10000,20))
+yS1=np.zeros((10000,20))
+
 XCT=np.zeros((10000,input_shape,input_shape,1))
 yDose=np.zeros((10000,input_shape,input_shape,1))
 
@@ -50,7 +50,8 @@ for i in range(len(PatientList)):
     SaveImages(i,X,Xct,XDVH,Listy,CTList,1)
 
     XS[cont:cont+X.shape[0],:,:,:]= X[:,:,:,:]
-    yS[cont:cont+Listy[1].shape[0],:]=Listy[1][:,:]
+    yS[cont:cont+Listy[1].shape[0],:]=Listy[0][:,:]
+    yS1[cont:cont+Listy[1].shape[0],:]=Listy[0][:,:]
     XCT[cont:cont+Xct.shape[0],:,:,0]= Xct[:,:,:]
    # yDose[cont:cont+Dosis.shape[0],:,:,:]= Dosis[:,:,:,:]
     
@@ -63,8 +64,14 @@ print(end - start)
 
 XS= XS[0:cont,:,:,:]
 yS= yS[0:cont,:]
+yS1= yS1[0:cont,:]
 XCT= XCT[0:cont,:,:,:]
-yDose= yDose[0:cont,:,:,:]
+#yDose= yDose[0:cont,:,:,:]
+
+np.save('XS.npy',XS)
+np.save('yS.npy',yS)
+np.save('yS1.npy',yS1)
+np.save('XCT.npy',XCT)
 
 
 
