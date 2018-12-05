@@ -40,3 +40,4 @@ DataExtraction/__pycache__/ContourFunctions.cpython-36.pyc
 DataExtraction/__pycache__/DoseFunctions.cpython-36.pyc
 DataExtraction/__pycache__/FindStructures.cpython-36.pyc
 DataExtraction/__pycache__/ReadPatientData.cpython-36.pyc
+*.pyc
