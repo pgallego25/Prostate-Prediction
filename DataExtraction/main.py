@@ -51,7 +51,7 @@ for i in range(len(PatientList)):
 
     XS[cont:cont+X.shape[0],:,:,:]= X[:,:,:,:]
     yS[cont:cont+Listy[1].shape[0],:]=Listy[0][:,:]
-    yS1[cont:cont+Listy[1].shape[0],:]=Listy[0][:,:]
+    yS1[cont:cont+Listy[1].shape[0],:]=Listy[1][:,:]
     XCT[cont:cont+Xct.shape[0],:,:,0]= Xct[:,:,:]
    # yDose[cont:cont+Dosis.shape[0],:,:,:]= Dosis[:,:,:,:]
     
