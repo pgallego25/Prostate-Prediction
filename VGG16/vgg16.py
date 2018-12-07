@@ -208,7 +208,7 @@ if __name__ == '__main__':
     preds = model.predict(x)
     print('Predicted:', decode_predictions(preds))
 
-def CreateModel(input_shape1,input_shape2,channels,logdir,Rundir,output):
+def CreateModel(input_shape1,input_shape2,channels,output):
     model_vgg16_conv = VGG16(weights='imagenet', include_top=False,pooling='avg')
     #model_vgg16_conv.layers.pop() # Get rid of the classification layer
     #model_vgg16_conv.layers.pop() # Get rid of the dropout layer
