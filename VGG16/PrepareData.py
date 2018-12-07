@@ -35,5 +35,5 @@ def PrepareData(N,N2):
     
     
     
-    return X_train,y_train,X_val,y_val,X_test,y_test
+    return X_train,y_train,X_val,y_val,X_test,y_test,Slices[0:Corte1],Slices[Corte1:Corte2],Slices[Corte2:]
 
