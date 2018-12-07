@@ -38,7 +38,7 @@ def evaluate(X,y,SC,model,logdir,Rundir,verbose = 0) :
             print (i)
             plt.plot(Rango[0:20],DvhRectoN[0:20],color='red')  
             plt.scatter(Rango[0:20],DvhRectoN[0:20],color='red')
-            plt.grid()
+            plt.grid(True)
             plt.title("Rectum DVH")
                
         ys= model.predict(X[SliceConts[i]:SliceConts[i+1],:,:,:])
@@ -49,15 +49,15 @@ def evaluate(X,y,SC,model,logdir,Rundir,verbose = 0) :
         Rango = np.arange(Min,Max, (Max-Min)/Pasos)
         
         DvhRecto2 = np.sum(np.array(ys[:,:]),axis = 0 ) 
-        DvhRecto2N = DvhRecto2/DvhRecto[0]# / DvhRecto2[0]  *  DvhRecto[10]    - DvhRecto2[-1] / DvhRecto2[0]  *  DvhRecto[10] 
+        DvhRecto2N = DvhRecto2#/DvhRecto[0]# / DvhRecto2[0]  *  DvhRecto[10]    - DvhRecto2[-1] / DvhRecto2[0]  *  DvhRecto[10] 
         DvhRecto2N = DvhRecto2N - DvhRecto2N[-1]
         if verbose ==1:
 
             plt.plot(Rango[0:20],DvhRecto2N,color='blue')     
             plt.scatter(Rango[0:20],DvhRecto2N,color='blue')   
-            plt.grid()
+            plt.grid(True)
             plt.title("Rectum DVH")
-            plt.savefig(str(i) + 'Test.png')       
+           # plt.savefig(str(i) + 'Test.png')       
             plt.show()
             
       

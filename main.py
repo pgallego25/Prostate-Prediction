@@ -28,7 +28,7 @@ logPath = os.path.join(logdir,Rundir)
 checkpointcallback = ModelCheckpoint(os.path.join(logPath,'BestModel'),
                 monitor='val_loss', verbose=0, save_best_only=True,
                 save_weights_only=True, mode='auto', period=1)
-tbCallback = TensorBoard(log_dir=logdir+Rundir, histogram_freq=0,
+tbCallback = TensorBoard(log_dir=logPath, histogram_freq=0,
                             write_graph=True, write_images=True)
 
     
@@ -37,12 +37,15 @@ tbCallback = TensorBoard(log_dir=logdir+Rundir, histogram_freq=0,
 model = CreateModel(input_shape,input_shape,channels,logdir,Rundir,20)
 
 
-model.fit(X_train,y_train,batch_size=1,validation_data=(X_val,y_val), 
-          callbacks=[tbCallback,checkpointcallback],epochs=10000,shuffle=True)
 
-
-
-#model.load_weights(logdir+Rundir+'\\BestModel3')
-evaluate(X_test,y_test,SCtest,model,logdir,Rundir,verbose = 0) 
-  
+for i in range(10):
+    
+    model.fit(X_train[0:100],y_train[0:100],batch_size=1,validation_data=(X_val,y_val), 
+              callbacks=[tbCallback,checkpointcallback],epochs=10,shuffle=True)
+    
+    
+    
+    #model.load_weights(logdir+Rundir+'\\BestModel3')
+    evaluate(X_test,y_test,SCtest,model,logdir,Rundir,verbose = 1) 
+      
     
