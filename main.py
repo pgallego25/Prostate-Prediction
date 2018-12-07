@@ -38,14 +38,20 @@ model = CreateModel(input_shape,input_shape,channels,logdir,Rundir,20)
 
 
 
-for i in range(10):
+for i in range(1000):
     
-    model.fit(X_train[0:100],y_train[0:100],batch_size=1,validation_data=(X_val,y_val), 
-              callbacks=[tbCallback,checkpointcallback],epochs=10,shuffle=True)
+    model.fit(X_train[0:100],y_train[0:100],batch_size=1, 
+              callbacks=[tbCallback,checkpointcallback],epochs=1,shuffle=True)
     
-    
-    
+#    
+#    N = 20
+#    plt.plot(y_test[N])
+#    ys=model.predict(X_test[N:N+1])
+#    plt.plot(ys[0,:])
+#    plt.show()
     #model.load_weights(logdir+Rundir+'\\BestModel3')
-    evaluate(X_test,y_test,SCtest,model,logdir,Rundir,verbose = 1) 
+    a,b = evaluate(X_test,y_test,SCtest,model,1,1) 
+    print(a)
+    print(b)
       
     

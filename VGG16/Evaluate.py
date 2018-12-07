@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 
 
 
-def evaluate(X,y,SC,model,logdir,Rundir,verbose = 0) : 
+def evaluate(X,y,SC,model,bucle,verbose = 0) : 
   
        
     
@@ -26,14 +26,14 @@ def evaluate(X,y,SC,model,logdir,Rundir,verbose = 0) :
     a=0
     b=0
     
-    for i in range(len(SliceConts)-1):
+    for i in range(bucle):#range(len(SliceConts)-1):
         Min=0
         Max=80 #np.max(maskedImage)+ 0.15 * np.max(maskedImage)
         Pasos= 20
         Rango = np.arange(Min,Max, (Max-Min)/Pasos)
         
         DvhRecto = np.sum(np.array(y[SliceConts[i]:SliceConts[i+1],0:20]),axis = 0 ) 
-        DvhRectoN = DvhRecto/DvhRecto[0]# / DvhRecto[0]  
+        DvhRectoN = DvhRecto# / DvhRecto[0]  
         if verbose ==1:
             print (i)
             plt.plot(Rango[0:20],DvhRectoN[0:20],color='red')  
@@ -49,8 +49,8 @@ def evaluate(X,y,SC,model,logdir,Rundir,verbose = 0) :
         Rango = np.arange(Min,Max, (Max-Min)/Pasos)
         
         DvhRecto2 = np.sum(np.array(ys[:,:]),axis = 0 ) 
-        DvhRecto2N = DvhRecto2#/DvhRecto[0]# / DvhRecto2[0]  *  DvhRecto[10]    - DvhRecto2[-1] / DvhRecto2[0]  *  DvhRecto[10] 
-        DvhRecto2N = DvhRecto2N - DvhRecto2N[-1]
+        DvhRecto2N = DvhRecto2# / DvhRecto2[0]  *  DvhRecto[10]    - DvhRecto2[-1] / DvhRecto2[0]  *  DvhRecto[10] 
+        DvhRecto2N = DvhRecto2N #- DvhRecto2N[-1]
         if verbose ==1:
 
             plt.plot(Rango[0:20],DvhRecto2N,color='blue')     
@@ -68,7 +68,7 @@ def evaluate(X,y,SC,model,logdir,Rundir,verbose = 0) :
      
         
         
-    if verbose ==1:
+    if verbose ==2:
     
         for i in range(len(SliceConts)-1):
            
