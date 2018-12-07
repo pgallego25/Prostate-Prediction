@@ -9,6 +9,7 @@ from keras.callbacks import TensorBoard,ModelCheckpoint
 from VGG16.vgg16 import CreateModel
 from VGG16.PrepareData import PrepareData
 from VGG16.Evaluate import evaluate
+from VGG16.CheckPatientDVH import checkdvh
 import os
 
 
@@ -43,14 +44,11 @@ for i in range(1000):
     model.fit(X_train,y_train,batch_size=1, 
               callbacks=[tbCallback,checkpointcallback],epochs=1,shuffle=True)
     
-#    
-#    N = 20
-#    plt.plot(y_test[N])
-#    ys=model.predict(X_test[N:N+1])
-#    plt.plot(ys[0,:])
-#    plt.show()
+
     #model.load_weights(logdir+Rundir+'\\BestModel3')
-    a,b = evaluate(X_test,y_test,SCtest,model,10,0) 
+    a,b = evaluate(X_train,y_train,SCtrain,model,10,1) 
+   # a,b = checkdvh(X_train,y_train,SCtrain,model,10,1) 
+
     print(a)
     print(b)
       

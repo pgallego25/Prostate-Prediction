@@ -25,13 +25,13 @@ def PrepareData(N,N2):
     
     
     X_train=XS[0:Slices[Corte1],:,:,:]
-    y_train=yN[0:Slices[Corte1],:] 
+    y_train=yS[0:Slices[Corte1],:] 
     
     X_val=XS[Slices[Corte1]:Slices[Corte2],:,:,:]
-    y_val=yN[Slices[Corte1]:Slices[Corte2],:]
+    y_val=yS[Slices[Corte1]:Slices[Corte2],:]
       
     X_test=XS[Slices[Corte2]:,:,:,:]
-    y_test=yN[Slices[Corte2]:,:]
+    y_test=yS[Slices[Corte2]:,:]
     
     
     

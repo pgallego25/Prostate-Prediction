@@ -12,16 +12,14 @@ Created on Mon Sep 17 12:51:08 2018
 @author: Varian
 """
 import numpy as np
-from keras.models import load_model
 import matplotlib.pyplot as plt
 
 
 
-def evaluate(X,y,SC,model,bucle,verbose = 0) :   
+def checkdvh(X,y,SC,model,bucle,verbose = 0) :   
     SliceConts=np.concatenate(([0],SC))
 
-    a=0
-    b=0
+
     print( SliceConts)
     for i in range(bucle):#range(len(SliceConts)-1):
         
@@ -32,32 +30,13 @@ def evaluate(X,y,SC,model,bucle,verbose = 0) :
         Rango = np.arange(Min,Max, (Max-Min)/Pasos)
         
         yt = np.sum(np.array(y[SliceConts[i]:SliceConts[i+1],:]),axis = 0 ) 
-        ym=  np.sum(model.predict(X[SliceConts[i]:SliceConts[i+1],:,:,:]),axis = 0)
 
 
         if verbose ==1:
             print (i)
             plt.plot(Rango,yt/yt[0],color='red',marker='o',linestyle='--')  
-            plt.plot(Rango,ym/ym[0],color='blue',marker='o',linestyle='--')     
             plt.grid(True)
             plt.title("Rectum DVH")
             plt.show()
             
       
-        a = a +1/len(ym)*np.mean(np.power(yt-ym,2))
-        b=b+1/len(ym)*np.mean(np.abs(yt-ym))
-        
-        
-     
-        
-        
-    if verbose ==2:
-    
-        for i in range(len(SliceConts)-1):
-            print('Analizing Patient ' + str(i) + '/'+ str(len(SliceConts)-1))
-            ym=  np.sum(model.predict(X[SliceConts[i]:SliceConts[i+1],:,:,:]),axis = 0)
-            plt.plot(Rango,ym,color='blue',marker='o',linestyle='--')
-            
-        plt.savefig('all.png')
-        plt.show()    
-    return a,b

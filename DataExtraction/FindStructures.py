@@ -16,7 +16,7 @@ def FindStructures(RsPath):
     RectoList=['Recte','rectum','recte','recto','RECTO','RECTE','OR-RECTE','Recto']
     LFemoralListt=['Cap femur esq','FEMURESQ','femurE','OR-FE','Cap femur E','Cap femur esquerre','capfemoralesq','Cap Femur E','Cap fem Esq','cap femoral esq','cap femoral Esq','C. femoral E']
     RFemoralListt=['Cap femur dret','FEMURDRTE','femurD','OR-FD','Cap femur D','Cap femu dret','capfemodret','Cap Femur D','cap fem dret','FEMURD','cap femoral dret','cap femoral D','C. femoral D']
-    PTV1List=['PTV1','PTV-P','P T V 1']
+    PTV1List=['PTV1','PTV-P','P T V 1','p t v 1']
     PTV11List=['PTV11','PTV1 1','PTV1.1']
 
     string = "Locations : "
