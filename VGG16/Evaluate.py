@@ -17,10 +17,7 @@ import matplotlib.pyplot as plt
 
 
 
-def evaluate(X,y,SC,model,bucle,verbose = 0) : 
-  
-       
-    
+def evaluate(X,y,SC,model,bucle,verbose = 0) :   
     SC = SC - SC[0]
     SliceConts=SC
     a=0
@@ -28,6 +25,7 @@ def evaluate(X,y,SC,model,bucle,verbose = 0) :
     
     for i in range(bucle):#range(len(SliceConts)-1):
         
+        print('Analizing Patient ' + str(i) + '/'+ str(len(SliceConts)-1))
         Min=0
         Max=80 
         Pasos= 20
@@ -56,9 +54,9 @@ def evaluate(X,y,SC,model,bucle,verbose = 0) :
     if verbose ==2:
     
         for i in range(len(SliceConts)-1):
-            
+            print('Analizing Patient ' + str(i) + '/'+ str(len(SliceConts)-1))
             ym=  np.sum(model.predict(X[SliceConts[i]:SliceConts[i+1],:,:,:]),axis = 0)
-            plt.scatter(Rango,ym,color='blue')
+            plt.plot(Rango,ym,color='blue',marker='o',linestyle='--')
             
         plt.savefig('all.png')
         plt.show()    

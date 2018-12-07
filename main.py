@@ -50,7 +50,7 @@ for i in range(1000):
 #    plt.plot(ys[0,:])
 #    plt.show()
     #model.load_weights(logdir+Rundir+'\\BestModel3')
-    a,b = evaluate(X_test,y_test,SCtest,model,1,1) 
+    a,b = evaluate(X_test,y_test,SCtest,model,10,0) 
     print(a)
     print(b)
       
