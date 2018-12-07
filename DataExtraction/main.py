@@ -73,6 +73,7 @@ np.save('yS.npy',yS)
 np.save('yS1.npy',yS1)
 np.save('XCT.npy',XCT)
 
+np.save('SliceConts.npy',SliceConts)
 
 
 

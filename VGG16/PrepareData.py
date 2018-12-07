@@ -10,9 +10,9 @@ import numpy as np
 def PrepareData(N,N2):
     
     
-    XS = np.load('Datasets\XS.npy')
-    yS = np.load('Datasets\YS.npy')
-    Slices = np.load('Datasets\SliceConts.npy')
+    XS = np.load('Data\XS.npy')
+    yS = np.load('Data\YS.npy')
+    Slices = np.load('Data\SliceConts.npy')
     yN=np.zeros((yS.shape[0],yS.shape[1]))
     for i in range((yS.shape[0])):
         if yS[i,0]==0: 
