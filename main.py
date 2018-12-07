@@ -40,7 +40,7 @@ model = CreateModel(input_shape,input_shape,channels,logdir,Rundir,20)
 
 for i in range(1000):
     
-    model.fit(X_train[0:100],y_train[0:100],batch_size=1, 
+    model.fit(X_train,y_train,batch_size=1, 
               callbacks=[tbCallback,checkpointcallback],epochs=1,shuffle=True)
     
 #    
