@@ -18,8 +18,13 @@ import matplotlib.pyplot as plt
 
 
 def evaluate(X,y,SC,model,bucle,verbose = 0) :   
-    SliceConts=np.concatenate(([0],SC))
-
+    SC2 = SC[1:]-SC[:-1]
+    SliceConts = [0]*len(SC)
+    for i in range(len(SliceConts))[1:]:
+        SliceConts[i-1] = np.sum(SC2[0:i])
+    SliceConts[-1]= np.sum(SC)
+    SliceConts=np.concatenate(([0],SC2))
+    print(SliceConts)
     a=0
     b=0
     print( SliceConts)
@@ -38,7 +43,7 @@ def evaluate(X,y,SC,model,bucle,verbose = 0) :
         if verbose ==1:
             print (i)
             plt.plot(Rango,yt/yt[0],color='red',marker='o',linestyle='--')  
-            plt.plot(Rango,ym/ym[0],color='blue',marker='o',linestyle='--')     
+            plt.plot(Rango,ym/yt[0],color='blue',marker='o',linestyle='--')     
             plt.grid(True)
             plt.title("Rectum DVH")
             plt.show()
@@ -52,8 +57,9 @@ def evaluate(X,y,SC,model,bucle,verbose = 0) :
         
         
     if verbose ==2:
-    
-        for i in range(len(SliceConts)-1):
+        for i in range(bucle):#range(len(SliceConts)-1):
+
+        #for i in range(len(SliceConts)-1):
             print('Analizing Patient ' + str(i) + '/'+ str(len(SliceConts)-1))
             ym=  np.sum(model.predict(X[SliceConts[i]:SliceConts[i+1],:,:,:]),axis = 0)
             plt.plot(Rango,ym,color='blue',marker='o',linestyle='--')

@@ -39,7 +39,7 @@ for i in range(1000):
               callbacks=[tbCallback,checkpointcallback],epochs=1,shuffle=True)
 
     #model.load_weights(logdir+Rundir+'\\BestModel3')
-    a,b = evaluate(X_train,y_train,SCtrain,model,10,1)  #PENDIENTE DE ARREGLAR PARA TEST Y VAL.
+    a,b = evaluate(X_test,y_test,SCtest,model,10,1)  #PENDIENTE DE ARREGLAR PARA TEST Y VAL.
    # a,b = checkdvh(X_train,y_train,SCtrain,model,10,1) 
 
     print(a)
