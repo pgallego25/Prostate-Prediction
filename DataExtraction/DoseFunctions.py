@@ -95,7 +95,8 @@ def getDvh(X,ZSlicePos,Rd,x,y,Verbose = 0):
    
     NonCeroPoints = np.count_nonzero(maskedImage)       
     Min=0
-    Max=80 #np.max(maskedImage)+ 0.15 * np.max(maskedImage)
+   # Max=80 #np.max(maskedImage)+ 0.15 * np.max(maskedImage)
+    Max=60 #np.max(maskedImage)+ 0.15 * np.max(maskedImage)
     Pasos= 20
     Rango = np.arange(Min,Max, (Max-Min)/Pasos)
     

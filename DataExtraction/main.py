@@ -39,7 +39,7 @@ cont=0
 PatientList= [1]
 SliceConts=[]
 
-Verbose = 1
+Verbose = 0
 start = time.time()
 
 for i in range(len(PatientList)):
