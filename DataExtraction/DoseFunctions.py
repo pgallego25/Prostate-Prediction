@@ -60,10 +60,13 @@ def getSliceDose(Rd,Slice):
     matrix = Rd.pixel_array
     
     ListaCortes = np.round((np.array(Rd.GridFrameOffsetVector)) + float(Rd.ImagePositionPatient[2]),1)
-    if np.sum(ListaCortes == Slice) == 0:
+    #print(ListaCortes)
+     #print(np.round(Slice,1))
+   #  print(np.sum(ListaCortes == np.round(Slice,1)))
+    if np.sum(ListaCortes == np.round(Slice,1)) == 0:
         print("No hay coincidencias")
     else:
-        Output = matrix[ListaCortes == Slice,:,:]
+        Output = matrix[ListaCortes ==  np.round(Slice,1),:,:]
         #plt.imshow(Output[0])   
         #plt.show()
     return Output[0]

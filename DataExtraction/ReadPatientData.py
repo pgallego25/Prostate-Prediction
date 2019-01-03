@@ -14,7 +14,7 @@ from DoseFunctions import GetStructCoordPlusDVH
 
 
 def GetPatientData(PatientDir,ListOfIndex,input_shape,input_shape2,Verbose = 0):
-        YDVH,XDVH,ZDVH,DOSESLICE = ReadDVHOnePatient(PatientDir,ListOfIndex,input_shape,input_shape,0)
+        YDVH,XDVH,ZDVH,DOSESLICE = ReadDVHOnePatient(PatientDir,ListOfIndex,input_shape,input_shape,Verbose)
         Zlist = (set(ZDVH[1]+ZDVH[2])) 
         Xct,XUnsorted, CTList = ReadCtOnePatient(PatientDir,ListOfIndex,input_shape,input_shape,Zlist,Verbose)
         
@@ -66,8 +66,7 @@ def ReadCtOnePatient(PatientDir,ListOfIndex,pixelX,pixelY,Zlist,Verbose=0):
    
     #Reading each Image CT file and creating  masks.
     for i in dirs:
-        if 'image' in i:
-
+        if ('image' in i) or ('CT' in i):
             Img = dicom.read_file(os.path.join(PatientDir,i),force =True)
         #    print('Getting Slice: ' + str(Img.SliceLocation))
             if Img.SliceLocation in Zlist:
@@ -88,11 +87,13 @@ def ReadCtOnePatient(PatientDir,ListOfIndex,pixelX,pixelY,Zlist,Verbose=0):
     
                 XCT[cont,:,:] = CtImage            
                 
-                Xm[cont,:,:,0] = (MaskedImages[3]+MaskedImages[4]+MaskedImages[5])*100 ++MaskedImages[6]*1000
+               #RECTO  Xm[cont,:,:,0] = (MaskedImages[3]+MaskedImages[4]+MaskedImages[5])*100 +MaskedImages[6]*1000
+                Xm[cont,:,:,0] = (MaskedImages[3]+MaskedImages[4])
                 Xm[cont,:,:,1] = (MaskedImages[1]*10+MaskedImages[2]*50)
                 Xm[cont,:,:,2] = MaskedImages[0]
                
                 if Verbose==1:
+                  
                     plt.imshow(Xm[cont,:,:,0:3])
                     plt.show()
                 cont=cont +1 

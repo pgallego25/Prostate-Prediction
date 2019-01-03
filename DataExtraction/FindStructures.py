@@ -58,3 +58,40 @@ def FindStructures(RsPath):
     
     
     
+def FindStructuresBreast(RsPath):
+    
+    
+    PulmonLList=['OR PULMO ESQ']
+
+    CorList=['OR COR']
+    PTVMamaList=['PTV MAMA ESQ','PTV PAREDI','PTV-MAMAI']
+    PTVAreaList=['PTV AREES','PTV AREAS']
+
+    string = "Locations : "
+    f = dicom.read_file(RsPath,force=True)
+    for i in range(len(f.RTROIObservationsSequence)):
+        string = string + " " +f.StructureSetROISequence[i].ROIName + "\n"
+        if f.RTROIObservationsSequence[i].RTROIInterpretedType == 'EXTERNAL' :
+            Body = i
+            
+        elif f.StructureSetROISequence[i].ROIName in PulmonLList:
+    
+            Pulmon =i
+            
+            
+        elif f.StructureSetROISequence[i].ROIName in CorList:
+    
+            Cor =i
+            
+        
+                  
+        elif f.StructureSetROISequence[i].ROIName in PTVMamaList:
+    
+            PTVMama =i
+        elif f.StructureSetROISequence[i].ROIName in PTVAreaList:
+    
+            PTVAreas =i
+    print(string )      
+    return [Body,Pulmon,Cor,PTVMama,PTVAreas]
+    
+    
