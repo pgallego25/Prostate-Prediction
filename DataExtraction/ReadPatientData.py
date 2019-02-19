@@ -11,7 +11,7 @@ from ContourFunctions import getCompleteContours,GetMaskOfASlice
 import scipy.misc
 import matplotlib.pyplot as plt
 from DoseFunctions import GetStructCoordPlusDVH
-
+import re
 
 def GetPatientData(PatientDir,ListOfIndex,input_shape,input_shape2,Verbose = 0):
         YDVH,XDVH,ZDVH,DOSESLICE = ReadDVHOnePatient(PatientDir,ListOfIndex,input_shape,input_shape,Verbose)
@@ -44,9 +44,14 @@ def GetPatientData(PatientDir,ListOfIndex,input_shape,input_shape2,Verbose = 0):
 
 def ReadCtOnePatient(PatientDir,ListOfIndex,pixelX,pixelY,Zlist,Verbose=0):
     ##Getting paths and reading Dose and structure files. 
-    
-    Rspath = os.path.join(PatientDir, 'Rs.dcm')
-    RdPath = os.path.join(PatientDir, 'Rd.dcm')
+    for j in os.listdir(PatientDir):
+        if re.search('Rs', j, re.IGNORECASE):      
+           Rs = j
+        elif re.search('Rd', j, re.IGNORECASE):
+           Rd = j
+   
+    Rspath = os.path.join(PatientDir, Rs)
+    RdPath = os.path.join(PatientDir, Rd)
     f = dicom.read_file(Rspath,force=True)
     rd =  dicom.read_file(RdPath,force=True)
     rd.file_meta.TransferSyntaxUID = dicom.uid.ImplicitVRLittleEndian
@@ -87,8 +92,8 @@ def ReadCtOnePatient(PatientDir,ListOfIndex,pixelX,pixelY,Zlist,Verbose=0):
     
                 XCT[cont,:,:] = CtImage            
                 
-               #RECTO  Xm[cont,:,:,0] = (MaskedImages[3]+MaskedImages[4]+MaskedImages[5])*100 +MaskedImages[6]*1000
-                Xm[cont,:,:,0] = (MaskedImages[3]+MaskedImages[4])
+                Xm[cont,:,:,0] = (MaskedImages[3]+MaskedImages[4]+MaskedImages[5])*100 +MaskedImages[6]*1000
+              #  Xm[cont,:,:,0] = (MaskedImages[3]+MaskedImages[4])
                 Xm[cont,:,:,1] = (MaskedImages[1]*10+MaskedImages[2]*50)
                 Xm[cont,:,:,2] = MaskedImages[0]
                
@@ -104,8 +109,15 @@ def ReadCtOnePatient(PatientDir,ListOfIndex,pixelX,pixelY,Zlist,Verbose=0):
 
 
 def ReadDVHOnePatient(PatientDir,ListOfIndex,pixelX,pixelY,Verbose=0):
-    Rspath = os.path.join(PatientDir, 'Rs.dcm')
-    RdPath = os.path.join(PatientDir, 'Rd.dcm')
+    
+    for j in os.listdir(PatientDir):
+        if re.search('Rs', j, re.IGNORECASE):      
+           Rs = j
+        elif re.search('Rd', j, re.IGNORECASE):
+           Rd = j
+   
+    Rspath = os.path.join(PatientDir, Rs)
+    RdPath = os.path.join(PatientDir, Rd)
     f = dicom.read_file(Rspath,force=True)
     rd =  dicom.read_file(RdPath,force=True)
     rd.file_meta.TransferSyntaxUID = dicom.uid.ImplicitVRLittleEndian

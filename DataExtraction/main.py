@@ -12,7 +12,7 @@ import numpy as np
 from ReadPatientData import GetPatientData,SaveImages
 from FindStructures import FindStructures,FindStructuresBreast
 import time
-
+import re
 import matplotlib.pyplot as plt
 
 
@@ -32,11 +32,11 @@ PathOfPatients= 'C:\\Users\\varian\\Desktop\\ProstatePrediction\\Patients\\SIB'
 
 PathOfPatients = 'C:\\Users\\Varian\\Desktop\\PROYECTO PAYASO\\46Gy\\IZQUIERDAS'
 
-
+PathOfPatients = 'C:\\Users\\Varian\\Desktop\\ProstatePrediction\\Patients\\Test'
 cont=0
 #PatientList= [11] #TEST
 #PatientList= [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,100,101,102,103,104,106,107,109,110,112,114,115,116,117,118,119,120,121,122,123,125,126,127,128,129,131,132]
-PatientList= [1]
+PatientList= [1,2]
 SliceConts=[]
 
 Verbose = 0
@@ -47,8 +47,14 @@ for i in range(len(PatientList)):
     print("Patient " + str(PatientList[i]) )
     PatientDir = os.path.join(PathOfPatients,str(PatientList[i]))
 
-  #  ListOfIndex  = FindStructures(os.path.join(PatientDir,'Rs.dcm'))
-    ListOfIndex  = FindStructuresBreast(os.path.join(PatientDir,'Rs.dcm'))
+
+    for j in os.listdir(PatientDir):
+        if re.search('Rs', j, re.IGNORECASE):
+            
+           Rs = j
+           break
+    ListOfIndex  = FindStructures(os.path.join(PatientDir,Rs))
+  #  ListOfIndex  = FindStructuresBreast(os.path.join(PatientDir,'Rs.dcm'))
 
 
     X,Listy,Xct,XDVH,CTList = GetPatientData(PatientDir,ListOfIndex,input_shape,input_shape,Verbose)
@@ -76,12 +82,12 @@ yS1= yS1[0:cont,:]
 XCT= XCT[0:cont,:,:,:]
 #yDose= yDose[0:cont,:,:,:]
 
-np.save('XS.npy',XS)
-np.save('yS.npy',yS)
-np.save('yS1.npy',yS1)
-np.save('XCT.npy',XCT)
+np.save('XSTest.npy',XS)
+np.save('ySTest.npy',yS)
+np.save('yS1Test.npy',yS1)
+np.save('XCTTest.npy',XCT)
 
-np.save('SliceConts.npy',SliceConts)
+np.save('SliceContsTest.npy',SliceConts)
 
 
 
