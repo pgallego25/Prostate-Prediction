@@ -45,9 +45,9 @@ def GetPatientData(PatientDir,ListOfIndex,input_shape,input_shape2,Verbose = 0):
 def ReadCtOnePatient(PatientDir,ListOfIndex,pixelX,pixelY,Zlist,Verbose=0):
     ##Getting paths and reading Dose and structure files. 
     for j in os.listdir(PatientDir):
-        if re.search('StrctrSets', j, re.IGNORECASE):      
+        if re.search('StrctrSets', j, re.IGNORECASE) or  re.search('Rs', j, re.IGNORECASE):      
            Rs = j
-        elif re.search('Dose', j, re.IGNORECASE):
+        elif re.search('Dose', j, re.IGNORECASE)or  re.search('Rd', j, re.IGNORECASE):
            Rd = j
    
     Rspath = os.path.join(PatientDir, Rs)
@@ -92,8 +92,8 @@ def ReadCtOnePatient(PatientDir,ListOfIndex,pixelX,pixelY,Zlist,Verbose=0):
     
                 XCT[cont,:,:] = CtImage            
                 
-                Xm[cont,:,:,0] = (MaskedImages[3]+MaskedImages[4]+MaskedImages[5])*100 +MaskedImages[6]*1000
-              #  Xm[cont,:,:,0] = (MaskedImages[3]+MaskedImages[4])
+           #     Xm[cont,:,:,0] = (MaskedImages[3]+MaskedImages[4]+MaskedImages[5])*100 +MaskedImages[6]*1000
+                Xm[cont,:,:,0] = (MaskedImages[3]+MaskedImages[4])
                 Xm[cont,:,:,1] = (MaskedImages[1]*10+MaskedImages[2]*50)
                 Xm[cont,:,:,2] = MaskedImages[0]
                
@@ -111,9 +111,9 @@ def ReadCtOnePatient(PatientDir,ListOfIndex,pixelX,pixelY,Zlist,Verbose=0):
 def ReadDVHOnePatient(PatientDir,ListOfIndex,pixelX,pixelY,Verbose=0):
     
     for j in os.listdir(PatientDir):
-        if re.search('StrctrSets', j, re.IGNORECASE):      
+        if re.search('StrctrSets', j, re.IGNORECASE) or  re.search('Rs', j, re.IGNORECASE):      
            Rs = j
-        elif re.search('Dose', j, re.IGNORECASE):
+        elif re.search('Dose', j, re.IGNORECASE)or  re.search('Rd', j, re.IGNORECASE):
            Rd = j
    
     Rspath = os.path.join(PatientDir, Rs)
@@ -137,23 +137,26 @@ def ReadDVHOnePatient(PatientDir,ListOfIndex,pixelX,pixelY,Verbose=0):
 
     
 
-def SaveImages(i,X,Xct,XDVH,Listy,CTList,Verbose): 
+def SaveImages(i,X,Xct,XDVH,Listy,CTList,Verbose,N): 
     if Verbose == 1:
-        N =26
            
         f, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)
       
         ax1.imshow(X[N,:,:,:])
-    
+        
         ax2.imshow(Xct[N,:,:])
         ax2.set_title('CT')
         
-        ax3.plot(XDVH[1],Listy[0][N,:])
+        
+         
+        ax3.grid()     
+        
+        ax3.plot(XDVH[1], np.sum(Listy[0][:,:],axis = 0)/np.sum(Listy[0][:,:],axis = 0)[0])
         ax3.set_title('Recto DVH')
+        ax4.grid()
         
         
-        
-        ax4.plot(XDVH[1],Listy[1][N,:])
+        ax4.plot(XDVH[1], np.sum(Listy[1][:,:],axis = 0)/np.sum(Listy[1][:,:],axis = 0)[0])
         ax4.set_title('Vejiga DVH')
         
         f.savefig(os.path.join(os.getcwd(),('DatasetTest\\Img'+ str(i) +'.jpg')))

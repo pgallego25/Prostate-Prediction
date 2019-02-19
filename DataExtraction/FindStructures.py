@@ -58,14 +58,16 @@ def FindStructures(RsPath):
     
     
     
-def FindStructuresBreast(RsPath):
+def FindStructuresBreast(RsPath,Side):
     
+    if Side =='L':
+        PulmonLList=['OR PULMO ESQ','OR-PULMOE']
+        PTVMamaList=['PTV MAMA ESQ','PTV PAREDI','PTV-MAMAI','PTV-MAMAE','PTV PARET ESQ','PTV pared']
+    elif Side =='R':
+        PulmonLList=['OR PULMO Dret','OR-PULMOD']
+    CorList=['OR COR','OR-COR','Heart']
     
-    PulmonLList=['OR PULMO ESQ']
-
-    CorList=['OR COR']
-    PTVMamaList=['PTV MAMA ESQ','PTV PAREDI','PTV-MAMAI']
-    PTVAreaList=['PTV AREES','PTV AREAS']
+    PTVAreaList=['PTV AREES','PTV AREAS','PTV-AREES','PTVareas']
 
     string = "Locations : "
     f = dicom.read_file(RsPath,force=True)
