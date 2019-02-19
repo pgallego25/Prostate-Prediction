@@ -14,10 +14,10 @@ RsPath = 'C:\\Users\\pgallego\\Desktop\\Prostate1\\RS.1.2.246.352.71.4.210192132
 def FindStructures(RsPath):
     BufetaList=['Bufeta','bufeta','bllader','Bladder','BUFETA','BLADDER','bufet','VEJIGA','Vejiga']
     RectoList=['Recte','rectum','recte','recto','RECTO','RECTE','OR-RECTE','Recto']
-    LFemoralListt=['Cap femur esq','FEMURESQ','femurE','OR-FE','Cap femur E','Cap femur esquerre','capfemoralesq','Cap Femur E','Cap fem Esq','cap femoral esq','cap femoral Esq','C. femoral E']
-    RFemoralListt=['Cap femur dret','FEMURDRTE','femurD','OR-FD','Cap femur D','Cap femu dret','capfemodret','Cap Femur D','cap fem dret','FEMURD','cap femoral dret','cap femoral D','C. femoral D']
+    LFemoralListt=['Cap femur esq','FEMURESQ','femurE','OR-FE','Cap femur E','Cap femur esquerre','capfemoralesq','Cap Femur E','Cap fem Esq','cap femoral esq','cap femoral Esq','C. femoral E','cap femoral esquerre','femur esq']
+    RFemoralListt=['Cap femur dret','FEMURDRTE','femurD','OR-FD','Cap femur D','Cap femu dret','capfemodret','Cap Femur D','cap fem dret','FEMURD','cap femoral dret','cap femoral D','C. femoral D','cap femur dret','femur dret','fèmur dret']
     PTV1List=['PTV1','PTV-P','P T V 1','p t v 1']
-    PTV11List=['PTV11','PTV1 1','PTV1.1']
+    PTV11List=['PTV11','PTV1 1','PTV1.1','PTV 11','PTV11 sib']
 
     string = "Locations : "
     f = dicom.read_file(RsPath,force=True)

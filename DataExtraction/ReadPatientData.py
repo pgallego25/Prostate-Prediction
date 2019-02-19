@@ -45,9 +45,9 @@ def GetPatientData(PatientDir,ListOfIndex,input_shape,input_shape2,Verbose = 0):
 def ReadCtOnePatient(PatientDir,ListOfIndex,pixelX,pixelY,Zlist,Verbose=0):
     ##Getting paths and reading Dose and structure files. 
     for j in os.listdir(PatientDir):
-        if re.search('Rs', j, re.IGNORECASE):      
+        if re.search('StrctrSets', j, re.IGNORECASE):      
            Rs = j
-        elif re.search('Rd', j, re.IGNORECASE):
+        elif re.search('Dose', j, re.IGNORECASE):
            Rd = j
    
     Rspath = os.path.join(PatientDir, Rs)
@@ -111,9 +111,9 @@ def ReadCtOnePatient(PatientDir,ListOfIndex,pixelX,pixelY,Zlist,Verbose=0):
 def ReadDVHOnePatient(PatientDir,ListOfIndex,pixelX,pixelY,Verbose=0):
     
     for j in os.listdir(PatientDir):
-        if re.search('Rs', j, re.IGNORECASE):      
+        if re.search('StrctrSets', j, re.IGNORECASE):      
            Rs = j
-        elif re.search('Rd', j, re.IGNORECASE):
+        elif re.search('Dose', j, re.IGNORECASE):
            Rd = j
    
     Rspath = os.path.join(PatientDir, Rs)
