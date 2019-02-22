@@ -13,10 +13,11 @@ import matplotlib.pyplot as plt
 from DoseFunctions import GetStructCoordPlusDVH
 import re
 
-def GetPatientData(PatientDir,ListOfIndex,input_shape,input_shape2,Verbose = 0):
+def GetPatientData(PatientDir,ListOfIndex,input_shape,input_shape2,location,Verbose = 0):
         YDVH,XDVH,ZDVH,DOSESLICE = ReadDVHOnePatient(PatientDir,ListOfIndex,input_shape,input_shape,Verbose)
         Zlist = (set(ZDVH[1]+ZDVH[2])) 
-        Xct,XUnsorted, CTList = ReadCtOnePatient(PatientDir,ListOfIndex,input_shape,input_shape,Zlist,Verbose)
+        
+        Xct,XUnsorted, CTList,NHC = ReadCtOnePatient(PatientDir,ListOfIndex,input_shape,input_shape,Zlist,location,Verbose)
         
         
         CTList = (np.array(CTList))
@@ -37,25 +38,34 @@ def GetPatientData(PatientDir,ListOfIndex,input_shape,input_shape2,Verbose = 0):
                 else:
                     y[c,:] = np.zeros((1,20))
             listOfYs.append(y[Indices])
-        return XUnsorted[Indices],listOfYs,Xct[Indices],XDVH,CTList[Indices]
+        return XUnsorted[Indices],listOfYs,Xct[Indices],XDVH,CTList[Indices],NHC
 
 
 
 
-def ReadCtOnePatient(PatientDir,ListOfIndex,pixelX,pixelY,Zlist,Verbose=0):
+def ReadCtOnePatient(PatientDir,ListOfIndex,pixelX,pixelY,Zlist,location,Verbose=0):
     ##Getting paths and reading Dose and structure files. 
     for j in os.listdir(PatientDir):
         if re.search('StrctrSets', j, re.IGNORECASE) or  re.search('Rs', j, re.IGNORECASE):      
            Rs = j
         elif re.search('Dose', j, re.IGNORECASE)or  re.search('Rd', j, re.IGNORECASE):
            Rd = j
+  #      elif re.search('RP', j, re.IGNORECASE):
+    #       Rp = j
+           
+           
+           
+           
    
     Rspath = os.path.join(PatientDir, Rs)
     RdPath = os.path.join(PatientDir, Rd)
+   # RpPath = os.path.join(PatientDir, Rp)
+
     f = dicom.read_file(Rspath,force=True)
     rd =  dicom.read_file(RdPath,force=True)
     rd.file_meta.TransferSyntaxUID = dicom.uid.ImplicitVRLittleEndian
    
+   # rp= dicom.read_file(RpPath,force=True)
     ##Reading list of CT Images. 
     dirs = os.listdir(PatientDir)
     CTlist=[]
@@ -91,9 +101,15 @@ def ReadCtOnePatient(PatientDir,ListOfIndex,pixelX,pixelY,Zlist,Verbose=0):
                 MaskedImages  = GetMaskOfASlice(ListOfIndex, float(Img.SliceLocation),f,rd,pixelX,pixelY,XC,YC,ZC,XXC)
     
                 XCT[cont,:,:] = CtImage            
-                
-           #     Xm[cont,:,:,0] = (MaskedImages[3]+MaskedImages[4]+MaskedImages[5])*100 +MaskedImages[6]*1000
-                Xm[cont,:,:,0] = (MaskedImages[3]+MaskedImages[4])
+                if location =='R':
+                    Xm[cont,:,:,0] = (MaskedImages[3])  #MAMA R
+
+                elif location =='L':
+                    Xm[cont,:,:,0] = (MaskedImages[3]+MaskedImages[4])  #MAMA L
+
+                elif location == 'P':
+                    Xm[cont,:,:,0] = (MaskedImages[3]+MaskedImages[4]+MaskedImages[5])*100 +MaskedImages[6]*1000  #PRostata
+
                 Xm[cont,:,:,1] = (MaskedImages[1]*10+MaskedImages[2]*50)
                 Xm[cont,:,:,2] = MaskedImages[0]
                
@@ -105,7 +121,9 @@ def ReadCtOnePatient(PatientDir,ListOfIndex,pixelX,pixelY,Zlist,Verbose=0):
                
     Xm = Xm[0:cont,:,:,:]
     XCT = XCT[0:cont,:,:]
-    return XCT,Xm,CTlist
+    NHC = Img.PatientID
+ #   PrescriptionDose= Img.DoseReferenceSequence[0].TargetPrescriptionDose
+    return XCT,Xm,CTlist,NHC
 
 
 def ReadDVHOnePatient(PatientDir,ListOfIndex,pixelX,pixelY,Verbose=0):
