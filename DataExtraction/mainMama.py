@@ -27,12 +27,26 @@ input_shape=226
 channels=3
 
 
-###MAMA
-PathOfPatients = '\\\\PCCUBA\Fisica\PROYECTO PAYASO'
 
+
+
+###Prostata
+Path= 'C:\\Users\\varian\\Desktop\\ProstatePrediction\\Patients\\SIB'
+DoseList=['SIB']
+AlgoList = ['Prostate']
+SideList = ['P']
+Folder= 'SetProstata'
+
+
+###MAMA
+Path = '\\\\PCCUBA\Fisica\PROYECTO PAYASO'
 DoseList=['50Gy','46Gy']
 AlgoList = ['AAA','PBC']
 SideList = ['R','L']
+Folder= 'SetMama'
+
+
+
 
 for Dose in DoseList:
     for Algorithm in AlgoList:
@@ -43,18 +57,11 @@ for Dose in DoseList:
             yS1=[]
             XCT=[]
             NHC = []
-            PathOfPatients = '\\\\PCCUBA\Fisica\PROYECTO PAYASO'
-            PathOfPatients =os.path.join(PathOfPatients,Dose)
-            PathOfPatients =os.path.join(os.path.join(PathOfPatients,Side),Algorithm)
-            print(PathOfPatients)
             
-            ###Prostata
-            """
-            PathOfPatients = 'C:\\Users\\Varian\\Desktop\\ProstatePrediction\\Patients\\SuperTest'
-            Side='P'
-            Dose=''
-            Algorithm = 'prostate'
-            """
+            PathOfPatients = Path
+            PathOfPatients = os.path.join(PathOfPatients,Dose)
+            PathOfPatients = os.path.join(os.path.join(PathOfPatients,Side),Algorithm)
+            print(PathOfPatients)
             
             PatientList= os.listdir(PathOfPatients)
             SliceConts=[]
@@ -81,7 +88,7 @@ for Dose in DoseList:
                     X,Listy,Xct,XDVH,CTList,nhc = GetPatientData(PatientDir,ListOfIndex,input_shape,input_shape,Side,Verbose)
                     
                     plt.show()
-                    SaveImages(PatientList[i],X,Xct,XDVH,Listy,CTList,1,10)
+                    SaveImages(PatientList[i],X,Xct,XDVH,Listy,CTList,1,10,nhc)
                     NHC.append(nhc)
                     XS.append(X[:,:,:,:])
                     yS.append(Listy[0][:,:])
@@ -95,9 +102,9 @@ for Dose in DoseList:
             end = time.time()
             print(end - start)
             
-            Results=[X,yS,yS1,XCT,NHC]
+            Results=[XS,yS,yS1,XCT,NHC]
 
-            np.save('SetMama\\Data' + '-'+ Side  + '-' + Algorithm+ '-'+Dose+ '.npy',Results)
+            np.save(Folder + '\\Data' + '-'+ Side  + '-' + Algorithm+ '-'+Dose+ '.npy',Results)
 
 
 

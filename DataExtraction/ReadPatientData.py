@@ -155,7 +155,7 @@ def ReadDVHOnePatient(PatientDir,ListOfIndex,pixelX,pixelY,Verbose=0):
 
     
 
-def SaveImages(i,X,Xct,XDVH,Listy,CTList,Verbose,N): 
+def SaveImages(i,X,Xct,XDVH,Listy,CTList,Verbose,N,NHC): 
     if Verbose == 1:
            
         f, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)
@@ -177,7 +177,7 @@ def SaveImages(i,X,Xct,XDVH,Listy,CTList,Verbose,N):
         ax4.plot(XDVH[1], np.sum(Listy[1][:,:],axis = 0)/np.sum(Listy[1][:,:],axis = 0)[0])
         ax4.set_title('Vejiga DVH')
         
-        f.savefig(os.path.join(os.getcwd(),('DatasetTest\\Img'+ str(i) +'.jpg')))
+        f.savefig(os.path.join(os.getcwd(),('DatasetTest\\'+ str(int(NHC)) +'.jpg')))
     if Verbose == 2:
       for n in range(len(CTList)):
           

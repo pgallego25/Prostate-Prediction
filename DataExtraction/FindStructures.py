@@ -51,7 +51,7 @@ def FindStructures(RsPath):
         elif f.StructureSetROISequence[i].ROIName in PTV11List:
     
             PTV11 =i
-    print(string)      
+  #  print(string)      
     return [Body,Recto,Bufeta,LFemoral,RFemoral,PTV1,PTV11]
     
     
@@ -96,7 +96,7 @@ def FindStructuresBreast(RsPath,Side):
     
             PTVAreas =i
     
-    print(string )      
+  #  print(string )      
     if Side == "L":
         return [Body,Pulmon,Cor,PTVMama,PTVAreas]
     else:

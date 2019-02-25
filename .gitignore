@@ -44,3 +44,4 @@ DataExtraction/__pycache__/ReadPatientData.cpython-36.pyc
 *.npy
 *.EC002
 *.png
+*.rar
