@@ -21,11 +21,11 @@ from FindStructures import FindStructures,FindStructuresBreast
 import time
 import re
 import matplotlib.pyplot as plt
+import pandas as pd
 
 
 input_shape=226
 channels=3
-
 
 
 
@@ -39,52 +39,52 @@ Folder= 'SetProstata'
 
 
 ###MAMA
-Path = '\\\\PCCUBA\Fisica\PROYECTO PAYASO'
-DoseList=['50Gy','46Gy']
-AlgoList = ['AAA','PBC']
-SideList = ['R','L']
+Path = '\\\\PCCUBA\Fisica\PROYECTO PAYASO\\NEW'
+AlgoList = ['PBC','AAA']
+SideList = ['L','R']
 Folder= 'SetMama'
 
+PatientList= os.listdir(Path)
 
+cont = 0
 
+Excel = pd.read_excel('AnalisisBienHecho.xlsx',index_col = 1,header = None)
 
-for Dose in DoseList:
-    for Algorithm in AlgoList:
-        for Side in SideList:
-                        
-            XS=[]
-            yS=[]
-            yS1=[]
-            XCT=[]
-            NHC = []
-            
-            PathOfPatients = Path
-            PathOfPatients = os.path.join(PathOfPatients,Dose)
-            PathOfPatients = os.path.join(os.path.join(PathOfPatients,Side),Algorithm)
-            print(PathOfPatients)
-            
-            PatientList= os.listdir(PathOfPatients)
-            SliceConts=[]
-            Verbose = 0
-            start = time.time()
-            
-            for i in range(len(PatientList)):
-            
-                print("Patient " + str(PatientList[i]) )
-                PatientDir = os.path.join(PathOfPatients,str(PatientList[i]))
-            
-            
+WrongPatients=[]
+
+for Algorithm in AlgoList:
+    for Side in SideList:
+        print('Leyendo pacientes de mama ' + Side +' algoritmo ' + Algorithm)
+        XS=[]
+        yS=[]
+        yS1=[]
+        XCT=[]
+        NHC = []
+        DoseList=[]
+ 
+        SliceConts=[]
+        Verbose = 0
+        
+        for i in range(len(PatientList)):
+        
+            nhcfolder = Excel.loc[float(PatientList[i])]
+            if nhcfolder[7]==Side and nhcfolder[8]==Algorithm:
+                PatientDir = os.path.join(Path,str(PatientList[i]))
+                print(PatientDir)
+                print(str(cont) + '/' + str(len(PatientList)))
+                cont=cont+1
                 for j in os.listdir(PatientDir):
                     if re.search('RS', j, re.IGNORECASE):
                         
                        Rs = j
                        break
-                if Side=='P':
-                    ListOfIndex  = FindStructures(os.path.join(PatientDir,Rs))
-                else:   
-                    ListOfIndex  = FindStructuresBreast(os.path.join(PatientDir,Rs),Side)
-            
                 try:
+                    if Side=='P':
+                        ListOfIndex  = FindStructures(os.path.join(PatientDir,Rs))
+                    else:   
+                        ListOfIndex  = FindStructuresBreast(os.path.join(PatientDir,Rs),Side)
+            
+                
                     X,Listy,Xct,XDVH,CTList,nhc = GetPatientData(PatientDir,ListOfIndex,input_shape,input_shape,Side,Verbose)
                     
                     plt.show()
@@ -94,17 +94,17 @@ for Dose in DoseList:
                     yS.append(Listy[0][:,:])
                     yS1.append(Listy[1][:,:])
                     XCT.append( Xct[:,:,:])
+                    DoseList.append(nhcfolder[9])
                 except:
+                    WrongPatients.append(nhcfolder)
                     print("El paciente " + str(PatientList[i]) + " no se ha podido importar")
                # yDose[cont:cont+Dosis.shape[0],:,:,:]= Dosis[:,:,:,:]
-                
-                
-            end = time.time()
-            print(end - start)
             
-            Results=[XS,yS,yS1,XCT,NHC]
+     
+            
+            Results=[XS,yS,yS1,XCT,NHC,DoseList]
 
-            np.save(Folder + '\\Data' + '-'+ Side  + '-' + Algorithm+ '-'+Dose+ '.npy',Results)
+            np.save(Folder + '\\Data' + '-'+ Side  + '-' + Algorithm+ '-'+ '.npy',Results)
 
 
 

@@ -178,6 +178,7 @@ def SaveImages(i,X,Xct,XDVH,Listy,CTList,Verbose,N,NHC):
         ax4.set_title('Vejiga DVH')
         
         f.savefig(os.path.join(os.getcwd(),('DatasetTest\\'+ str(int(NHC)) +'.jpg')))
+        
     if Verbose == 2:
       for n in range(len(CTList)):
           

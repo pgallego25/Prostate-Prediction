@@ -45,3 +45,6 @@ DataExtraction/__pycache__/ReadPatientData.cpython-36.pyc
 *.EC002
 *.png
 *.rar
+DataExtraction/NHC.txt
+DataExtraction/BORRAR.py
+DataExtraction/BORRAR2.py
