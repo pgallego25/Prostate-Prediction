@@ -30,24 +30,26 @@ channels=3
 
 
 
+
+###MAMA
+Path = 'C:\\github\\Prostate-Prediction\\Data'
+AlgoList = ['AAA','PBC']
+SideList = ['L','R']
+Folder= 'SetMama'
+
+
 ###Prostata
-Path= 'C:\\Users\\varian\\Desktop\\ProstatePrediction\\Patients\\SIB'
+Path= 'C:\\github\\Prostate-Prediction\\DataNew'
 DoseList=['SIB']
 AlgoList = ['Prostate']
 SideList = ['P']
 Folder= 'SetProstata'
 
 
-###MAMA
-Path = '\\\\PCCUBA\Fisica\PROYECTO PAYASO\\NEW'
-AlgoList = ['PBC','AAA']
-SideList = ['L','R']
-Folder= 'SetMama'
-
 PatientList= os.listdir(Path)
 
 
-Excel = pd.read_excel('AnalisisBienHecho.xlsx',index_col = 1,header = None)
+#Excel = pd.read_excel('AnalisisBienHecho.xlsx',index_col = 1,header = None)
 
 WrongPatients=[]
 
@@ -64,51 +66,53 @@ for Algorithm in AlgoList:
         Verbose = 0
         for i in range(len(PatientList)):
 
-            nhcfolder = Excel.loc[float(PatientList[i])]
-            if nhcfolder[7]==Side and nhcfolder[8]==Algorithm:
-                PatientDir = os.path.join(Path,str(PatientList[i]))
-                print(PatientDir)
-                print(str(cont) + '/' + str(len(PatientList)))
-                for j in os.listdir(PatientDir):
-                    if re.search('RS', j, re.IGNORECASE):
-                        
-                       Rs = j
-                       break
-                try:
-                    if Side=='P':
-                        ListOfIndex  = FindStructures(os.path.join(PatientDir,Rs))
-                    else:   
-                        ListOfIndex  = FindStructuresBreast(os.path.join(PatientDir,Rs),Side)
-                
-                
-                    X,Listy,Xct,XDVH,CTList,nhc = GetPatientData(PatientDir,ListOfIndex,input_shape,input_shape,Side,Verbose)
+         #   nhcfolder = Excel.loc[float(PatientList[i])]
+            
+        #    if nhcfolder[7]==Side and nhcfolder[8]==Algorithm:
+            PatientDir = os.path.join(Path,str(PatientList[i]))
+            print(PatientDir)
+            print(str(cont) + '/' + str(len(PatientList)))
+            for j in os.listdir(PatientDir):
+                if re.search('RS', j, re.IGNORECASE):
+                    
+                   Rs = j
+                   break
+            if Side=='P':
+                ListOfIndex  = FindStructures(os.path.join(PatientDir,Rs))
+            else:   
+                ListOfIndex  = FindStructuresBreast(os.path.join(PatientDir,Rs),Side)
         
-                    plt.show()
-                    SaveImages(PatientList[i],X,Xct,XDVH,Listy,CTList,1,10,nhc)
-   
-                    NHC.append(nhc)
-                    XS[cont] = (X[:,:,:,:])
-                    yS[cont] =(Listy[0][:,:])
-                    yS1[cont] =(Listy[1][:,:])
-                    XCT[cont] =( Xct[:,:,:])
-                    DoseList[cont] =(nhcfolder[9])
-                    cont=cont+1
+            try:
+                X,Listy,Xct,XDVH,CTList,nhc = GetPatientData(PatientDir,ListOfIndex,input_shape,input_shape,Side,Verbose)
+    
+               
+              #  SaveImages(PatientList[i],X,Xct,XDVH,Listy,CTList,1,10,nhc)
+       
+                XS[cont] = (X[:,:,:,:])
+                yS[cont] =(Listy[0][:,:])
+                yS1[cont] =(Listy[1][:,:])
+                XCT[cont] =( Xct[:,:,:])
+                NHC[cont] =( nhc)
+       
+             #   DoseList[cont] =(nhcfolder[9])
+                cont=cont+1
 
-                except:
-                    WrongPatients.append(nhcfolder)
-                    print("El paciente " + str(PatientList[i]) + " no se ha podido importar")
-               # yDose[cont:cont+Dosis.shape[0],:,:,:]= Dosis[:,:,:,:]
+            except:
+                WrongPatients.append(PatientList[i])
+                print("El paciente " + str(PatientList[i]) + " no se ha podido importar")
+           # yDose[cont:cont+Dosis.shape[0],:,:,:]= Dosis[:,:,:,:]
 
-        XS = XS[0:cont-1]
-        yS = yS[0:cont-1]
-        yS1 = yS1[0:cont-1]
-        XCT = XCT[0:cont-1]
-        DoseList = DoseList[0:cont-1]
+        XS = XS[0:cont]
+        yS = yS[0:cont]
+        yS1 = yS1[0:cont]
+        XCT = XCT[0:cont]
+        NHC = NHC[0:cont]
 
-        Results=[XS,yS,yS1,XCT,NHC,DoseList]
-
-        np.save(Folder + '\\Data' + '-'+ Side  + '-' + Algorithm+ '-'+ '.npy',Results)
-        print("Saving : "+'\\Data' + '-'+ Side  + '-' + Algorithm+ '-'+ '.npy')
+      #  DoseList = DoseList[0:cont-1]
+        #Results=[XS,yS,yS1,NHC,DoseList]
+        Results=[XS,yS,yS1,NHC]
+        print("Saving : "+'\\DataNew' + '-'+ Side  + '-' + Algorithm+ '-'+ '.npy')
+        np.save(Folder + '\\DataNew' + '-'+ Side  + '-' + Algorithm+ '-'+ '.npy',Results)
 
 
 

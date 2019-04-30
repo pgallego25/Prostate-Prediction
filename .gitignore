@@ -48,3 +48,5 @@ DataExtraction/__pycache__/ReadPatientData.cpython-36.pyc
 DataExtraction/NHC.txt
 DataExtraction/BORRAR.py
 DataExtraction/BORRAR2.py
+DataExtraction/AnalisisBienHecho.xlsx
+*.dcm
